@@ -1,18 +1,25 @@
 package com.anyonecan.tal.drawgame;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 
+public class MainActivity extends ActionBarActivity implements View.OnClickListener {
 
-public class MainActivity extends ActionBarActivity {
+    Button card5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        card5 = (Button) findViewById(R.id.btn_card5);
+        card5.setOnClickListener(this);
     }
 
     @Override
@@ -35,5 +42,12 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onClick(View view) {
+        if (view.getId() == R.id.btn_card5) {
+            Intent intent = new Intent(getApplicationContext(),DrawActivity.class);
+            startActivity(intent);
+        }
     }
 }
