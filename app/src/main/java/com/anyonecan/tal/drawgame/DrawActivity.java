@@ -8,8 +8,6 @@ import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -24,8 +22,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-
 
 public class DrawActivity extends ActionBarActivity implements View.OnClickListener {
     public static final String DATA_PATH = Environment
@@ -44,71 +40,7 @@ public class DrawActivity extends ActionBarActivity implements View.OnClickListe
         sendButton = (Button) findViewById(R.id.btn_send);
         sendButton.setOnClickListener(this);
 
-
-        String[] paths = new String[] { DATA_PATH, DATA_PATH + "tessdata/" };
-        for (String p : paths){
-            File dir = new File(p);
-            if (!dir.exists()) {
-                if (!dir.mkdirs()) {
-                    Log.v("AnyOneCan", "ERROR: Creation of directory " + p + " on sdcard failed");
-                    return;
-                } else {
-                    Log.v("AnyOneCan", "Created directory " + p + " on sdcard");
-                }
-            }
-        }
-
-        if (!(new File(DATA_PATH + "tessdata/eng.traineddata"))
-                .exists()) {
-            try {
-
-                AssetManager assetManager = getAssets();
-                InputStream in = assetManager.open("eng.traineddata");
-                // GZIPInputStream gin = new GZIPInputStream(in);
-                OutputStream out = new FileOutputStream(DATA_PATH
-                        + "tessdata/eng.traineddata");
-
-                // Transfer bytes from in to out
-                byte[] buf = new byte[1024];
-                int len;
-                // while ((lenf = gin.read(buff)) > 0) {
-                while ((len = in.read(buf)) > 0) {
-                    out.write(buf, 0, len);
-                }
-                in.close();
-                // gin.close();
-                out.close();
-
-                Log.d("AnyOneCan", "Copied eng.traineddata");
-            } catch (IOException e) {
-                Log.d("AnyOneCan",
-                        "Was unable to copy eng.traineddata "
-                                + e.toString());
-            }
-        }
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_draw, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        loadTrainDataFile();
     }
 
     public void onClick(View view) {
@@ -174,28 +106,22 @@ public class DrawActivity extends ActionBarActivity implements View.OnClickListe
 
             TessBaseAPI baseApi = new TessBaseAPI();
 
-            // DATA_PATH = Path to the storage
-            // lang = for which the language data exists, usually "eng"
-            baseApi.setDebug(true);
+            baseApi.setDebug(false);
             baseApi.init(DATA_PATH, "eng");
-//            // Eg. baseApi.init("/mnt/sdcard/tesseract/tessdata/eng.traineddata", "eng");
+            baseApi.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "0123456789");
             baseApi.setImage(b);
             String recognizedText = baseApi.getUTF8Text();
             baseApi.end();
 
-
-            if ( "eng".equalsIgnoreCase("eng") ) {
-                recognizedText = recognizedText.replaceAll("[^a-zA-Z0-9]+", " ");
-            }
-
-            recognizedText = recognizedText.trim();
-
-            Toast.makeText(getApplicationContext(),recognizedText, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),recognizedText, Toast.LENGTH_SHORT).show();
+            pictureFile.delete();
         }
     }
 
 
-    /** Create a File for saving an image or video */
+    /**
+      * Create a File for saving an image or video
+      */
     private  File getOutputMediaFile(){
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
@@ -223,6 +149,54 @@ public class DrawActivity extends ActionBarActivity implements View.OnClickListe
                 + getApplicationContext().getPackageName()
                 + "/Files/"+"AnyOneCan_"+ timeStamp +".png";
         return mediaFile;
+    }
+
+    /**
+     * Load the train data file for the OCR algorithm.
+     * If the file already on the storage - does nothing.
+     */
+    private void loadTrainDataFile() {
+        String[] paths = new String[] { DATA_PATH, DATA_PATH + "tessdata/" };
+        for (String p : paths){
+            File dir = new File(p);
+            if (!dir.exists()) {
+                if (!dir.mkdirs()) {
+                    Log.v("AnyOneCan", "ERROR: Creation of directory " + p + " on sdcard failed");
+                    return;
+                } else {
+                    Log.v("AnyOneCan", "Created directory " + p + " on sdcard");
+                }
+            }
+        }
+
+        if (!(new File(DATA_PATH + "tessdata/eng.traineddata"))
+                .exists()) {
+            try {
+
+                AssetManager assetManager = getAssets();
+                InputStream in = assetManager.open("eng.traineddata");
+                // GZIPInputStream gin = new GZIPInputStream(in);
+                OutputStream out = new FileOutputStream(DATA_PATH
+                        + "tessdata/eng.traineddata");
+
+                // Transfer bytes from in to out
+                byte[] buf = new byte[1024];
+                int len;
+                // while ((lenf = gin.read(buff)) > 0) {
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+                in.close();
+                // gin.close();
+                out.close();
+
+                Log.d("AnyOneCan", "Copied eng.traineddata");
+            } catch (IOException e) {
+                Log.d("AnyOneCan",
+                        "Was unable to copy eng.traineddata "
+                                + e.toString());
+            }
+        }
     }
 
 }
