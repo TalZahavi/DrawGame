@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
@@ -30,6 +32,7 @@ public class DrawActivity extends ActionBarActivity implements View.OnClickListe
     DrawingView drawView;
     Bitmap b;
     String path;
+    TextView number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,13 @@ public class DrawActivity extends ActionBarActivity implements View.OnClickListe
 
         drawView = (DrawingView) findViewById(R.id.drawing);
         sendButton = (Button) findViewById(R.id.btn_send);
+        number = (TextView) findViewById(R.id.number_text);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            number.setText(extras.getString("intent_var"));
+        }
+
         sendButton.setOnClickListener(this);
 
         loadTrainDataFile();
@@ -54,6 +64,7 @@ public class DrawActivity extends ActionBarActivity implements View.OnClickListe
                 return;
             }
             try {
+                number.setVisibility(View.INVISIBLE);
                 FileOutputStream fos = new FileOutputStream(pictureFile);
                 drawView.setDrawingCacheEnabled(true);
                 b = drawView.getDrawingCache();

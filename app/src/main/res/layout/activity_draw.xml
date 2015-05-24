@@ -33,15 +33,26 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.5">
+                    android:layout_weight="0.5"
+                    android:layout_gravity="center">
+
+
+                    <TextView
+                        android:id="@+id/number_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="5"
+                        android:textSize="280sp"
+                        android:textColor="#ffd9ecff"/>
 
                     <com.anyonecan.tal.drawgame.DrawingView
                         android:id="@+id/drawing"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:background="#0000"
+                        android:background="#0000"/>
 
-                        />
+
 
                 </RelativeLayout>
 

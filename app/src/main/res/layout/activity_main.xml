@@ -17,8 +17,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:paddingBottom="30dp"
+        android:layout_height="120dp"
         android:src="@drawable/logo"/>
 
 
@@ -30,6 +29,7 @@
         android:weightSum="5">
 
         <Button
+            android:id="@+id/btn_card1"
             android:layout_width="0dp"
             android:layout_height="140dp"
             android:layout_margin="10dp"
@@ -37,23 +37,29 @@
             android:layout_weight="1" />
 
         <Button
+            android:id="@+id/btn_card2"
             android:layout_width="0dp"
             android:layout_height="140dp"
             android:layout_margin="10dp"
             android:background="@drawable/card2"
             android:layout_weight="1"/>
+
         <Button
+            android:id="@+id/btn_card3"
             android:layout_width="0dp"
             android:layout_height="140dp"
             android:layout_margin="10dp"
             android:background="@drawable/card3"
             android:layout_weight="1"/>
+
         <Button
+            android:id="@+id/btn_card4"
             android:layout_width="0dp"
             android:layout_height="140dp"
             android:layout_margin="10dp"
             android:background="@drawable/card4"
             android:layout_weight="1"/>
+
         <Button
             android:id="@+id/btn_card5"
             android:layout_width="0dp"
@@ -73,6 +79,7 @@
         android:weightSum="5">
 
         <Button
+            android:id="@+id/btn_card6"
             android:layout_width="0dp"
             android:layout_height="140dp"
             android:layout_margin="10dp"
@@ -80,24 +87,31 @@
             android:layout_weight="1"/>
 
         <Button
+            android:id="@+id/btn_card7"
             android:layout_width="0dp"
             android:layout_height="140dp"
             android:layout_margin="10dp"
             android:background="@drawable/card7"
             android:layout_weight="1"/>
+
         <Button
+            android:id="@+id/btn_card8"
             android:layout_width="0dp"
             android:layout_height="140dp"
             android:layout_margin="10dp"
             android:background="@drawable/card8"
             android:layout_weight="1"/>
+
         <Button
+            android:id="@+id/btn_card9"
             android:layout_width="0dp"
             android:layout_height="140dp"
             android:layout_margin="10dp"
             android:background="@drawable/card9"
             android:layout_weight="1"/>
+
         <Button
+            android:id="@+id/btn_card10"
             android:layout_width="0dp"
             android:layout_height="140dp"
             android:layout_margin="10dp"
