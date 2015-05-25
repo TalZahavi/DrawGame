@@ -3,7 +3,7 @@
     android:id="@+id/gallerylayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/screen_draw1">
+    android:background="@drawable/bobi_and_note3">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.7" >
+            android:layout_weight="0.75" >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -28,23 +28,20 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.30"/>
+                    android:layout_weight="0.2"/>
 
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.5"
+                    android:layout_weight="0.65"
                     android:layout_gravity="center">
 
 
-                    <TextView
+                    <ImageView
                         android:id="@+id/number_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="5"
-                        android:textSize="280sp"
-                        android:textColor="#ffd9ecff"/>
+                        android:src="@drawable/shade_seven"/>
 
                     <com.anyonecan.tal.drawgame.DrawingView
                         android:id="@+id/drawing"
@@ -59,7 +56,16 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.2"/>
+                    android:layout_weight="0.15">
+
+                    <Button
+                        android:id="@+id/btn_send"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/send_button"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
+                </RelativeLayout>
 
             </LinearLayout>
 
@@ -68,15 +74,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.15">
-
-            <Button
-                android:id="@+id/btn_send"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/send_button"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
+            android:layout_weight="0.1">
 
         </RelativeLayout>
 

@@ -1,5 +1,6 @@
 package com.anyonecan.tal.drawgame;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
@@ -8,9 +9,11 @@ import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +35,11 @@ public class DrawActivity extends ActionBarActivity implements View.OnClickListe
     DrawingView drawView;
     Bitmap b;
     String path;
-    TextView number;
+    ImageView  number;
+
+    boolean continueMusic;
+    String numberToCheck;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,16 +48,48 @@ public class DrawActivity extends ActionBarActivity implements View.OnClickListe
 
         drawView = (DrawingView) findViewById(R.id.drawing);
         sendButton = (Button) findViewById(R.id.btn_send);
-        number = (TextView) findViewById(R.id.number_text);
+        number = (ImageView) findViewById(R.id.number_text);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            number.setText(extras.getString("intent_var"));
+            numberToCheck = extras.getString("intent_var");
+
+            if (numberToCheck.equals("1")) {
+                number.setImageResource(R.drawable.shade_one);
+            }
+            else if (numberToCheck.equals("2")) {
+                number.setImageResource(R.drawable.shade_two);
+            }
+            else if (numberToCheck.equals("3")) {
+                number.setImageResource(R.drawable.shade_three);
+            }
+            else if (numberToCheck.equals("4")) {
+                number.setImageResource(R.drawable.shade_four);
+            }
+            else if (numberToCheck.equals("5")) {
+                number.setImageResource(R.drawable.shade_five);
+            }
+            else if (numberToCheck.equals("6")) {
+                number.setImageResource(R.drawable.shade_six);
+            }
+            else if (numberToCheck.equals("7")) {
+                number.setImageResource(R.drawable.shade_seven);
+            }
+            else if (numberToCheck.equals("8")) {
+                number.setImageResource(R.drawable.shade_eight);
+            }
+            else if (numberToCheck.equals("9")) {
+                number.setImageResource(R.drawable.shade_nine);
+            }
+            else {
+                number.setImageResource(R.drawable.shade_ten);
+            }
         }
 
         sendButton.setOnClickListener(this);
 
         loadTrainDataFile();
+
     }
 
     public void onClick(View view) {
@@ -67,9 +106,11 @@ public class DrawActivity extends ActionBarActivity implements View.OnClickListe
                 number.setVisibility(View.INVISIBLE);
                 FileOutputStream fos = new FileOutputStream(pictureFile);
                 drawView.setDrawingCacheEnabled(true);
+                drawView.buildDrawingCache(true);
                 b = drawView.getDrawingCache();
                 b.compress(Bitmap.CompressFormat.PNG, 90, fos);
                 fos.close();
+
             } catch (FileNotFoundException e) {
                 Log.d("AnyOneCan", "File not found: " + e.getMessage());
                 Toast.makeText(getApplicationContext(),"File not found: " + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -112,6 +153,7 @@ public class DrawActivity extends ActionBarActivity implements View.OnClickListe
                     b = Bitmap.createBitmap(b, 0, 0, w, h, mtx, false);
                 }
                 b = b.copy(Bitmap.Config.ARGB_8888, true);
+                drawView.setDrawingCacheEnabled(false);
             }
             catch (IOException e) {}
 
@@ -124,9 +166,47 @@ public class DrawActivity extends ActionBarActivity implements View.OnClickListe
             String recognizedText = baseApi.getUTF8Text();
             baseApi.end();
 
-            Toast.makeText(getApplicationContext(),recognizedText, Toast.LENGTH_SHORT).show();
             pictureFile.delete();
+
+            if (recognizedText.equals(numberToCheck)) {
+                Toast.makeText(getApplicationContext(),"     Good Job!\nThe Number Is " + numberToCheck + "!", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+            }
+
+            else {
+                number.setVisibility(View.VISIBLE);
+                drawView.startNew();
+                Toast.makeText(getApplicationContext(),"Try Again...", Toast.LENGTH_LONG).show();
+            }
         }
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!continueMusic) {
+            MusicManager.pause();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        continueMusic = false;
+        MusicManager.start(this, MusicManager.MUSIC_GAME);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch(keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                continueMusic = false;
+                break;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
 
