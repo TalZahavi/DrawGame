@@ -59,58 +59,68 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         if (view.getId() == R.id.btn_card1) {
             intent.putExtra("intent_var","1");
             startActivity(intent);
+            //finish();
         }
         if (view.getId() == R.id.btn_card2) {
             intent.putExtra("intent_var","2");
             startActivity(intent);
+            //finish();
         }
         if (view.getId() == R.id.btn_card3) {
             intent.putExtra("intent_var","3");
             startActivity(intent);
+            //finish();
         }
         if (view.getId() == R.id.btn_card4) {
             intent.putExtra("intent_var","4");
             startActivity(intent);
+            //finish();
         }
         if (view.getId() == R.id.btn_card5) {
             intent.putExtra("intent_var","5");
             startActivity(intent);
+            //finish();
         }
         if (view.getId() == R.id.btn_card6) {
             intent.putExtra("intent_var","6");
             startActivity(intent);
+            //finish();
         }
         if (view.getId() == R.id.btn_card7) {
             intent.putExtra("intent_var","7");
             startActivity(intent);
+            //finish();
         }
         if (view.getId() == R.id.btn_card8) {
             intent.putExtra("intent_var","8");
             startActivity(intent);
+            //finish();
         }
         if (view.getId() == R.id.btn_card9) {
             intent.putExtra("intent_var","9");
             startActivity(intent);
+            //finish();
         }
         if (view.getId() == R.id.btn_card10) {
             intent.putExtra("intent_var", "10");
             startActivity(intent);
+            //finish();
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (!continueMusic) {
-            MusicManager.pause();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        continueMusic = false;
-        MusicManager.start(this, MusicManager.MUSIC_MENU);
-    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        if (!continueMusic) {
+//            MusicManager.pause();
+//        }
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        continueMusic = false;
+//        MusicManager.start(this, MusicManager.MUSIC_MENU);
+//    }
 
 }

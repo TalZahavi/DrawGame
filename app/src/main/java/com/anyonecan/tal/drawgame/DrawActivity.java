@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.media.MediaPlayer;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -39,6 +40,9 @@ public class DrawActivity extends ActionBarActivity implements View.OnClickListe
 
     boolean continueMusic;
     String numberToCheck;
+    MediaPlayer mp;
+    MediaPlayer rightAnswerMp;
+    MediaPlayer tryAgainPlayer;
 
 
     @Override
@@ -56,38 +60,78 @@ public class DrawActivity extends ActionBarActivity implements View.OnClickListe
 
             if (numberToCheck.equals("1")) {
                 number.setImageResource(R.drawable.shade_one);
+                mp = MediaPlayer.create(this, R.raw.draw1);
+                mp.start();
+                rightAnswerMp = MediaPlayer.create(this,R.raw.thisis1);
+
             }
             else if (numberToCheck.equals("2")) {
                 number.setImageResource(R.drawable.shade_two);
+                mp = MediaPlayer.create(this, R.raw.draw2);
+                mp.start();
+                rightAnswerMp = MediaPlayer.create(this,R.raw.thisis2);
+
             }
             else if (numberToCheck.equals("3")) {
                 number.setImageResource(R.drawable.shade_three);
+                mp = MediaPlayer.create(this, R.raw.draw3);
+                mp.start();
+                rightAnswerMp = MediaPlayer.create(this,R.raw.thisis3);
+
             }
             else if (numberToCheck.equals("4")) {
                 number.setImageResource(R.drawable.shade_four);
+                mp = MediaPlayer.create(this, R.raw.draw4);
+                mp.start();
+                rightAnswerMp = MediaPlayer.create(this,R.raw.thisis4);
+
             }
             else if (numberToCheck.equals("5")) {
                 number.setImageResource(R.drawable.shade_five);
+                mp = MediaPlayer.create(this, R.raw.draw5);
+                mp.start();
+                rightAnswerMp = MediaPlayer.create(this,R.raw.thisis5);
+
             }
             else if (numberToCheck.equals("6")) {
                 number.setImageResource(R.drawable.shade_six);
+                mp = MediaPlayer.create(this, R.raw.draw6);
+                mp.start();
+                rightAnswerMp = MediaPlayer.create(this,R.raw.thisis6);
+
             }
             else if (numberToCheck.equals("7")) {
                 number.setImageResource(R.drawable.shade_seven);
+                mp = MediaPlayer.create(this, R.raw.draw7);
+                mp.start();
+                rightAnswerMp = MediaPlayer.create(this,R.raw.thisis7);
+
             }
             else if (numberToCheck.equals("8")) {
                 number.setImageResource(R.drawable.shade_eight);
+                mp = MediaPlayer.create(this, R.raw.draw8);
+                mp.start();
+                rightAnswerMp = MediaPlayer.create(this,R.raw.thisis8);
+
             }
             else if (numberToCheck.equals("9")) {
                 number.setImageResource(R.drawable.shade_nine);
+                mp = MediaPlayer.create(this, R.raw.draw9);
+                mp.start();
+                rightAnswerMp = MediaPlayer.create(this,R.raw.thisis9);
+
             }
             else {
                 number.setImageResource(R.drawable.shade_ten);
+                mp = MediaPlayer.create(this, R.raw.draw10);
+                mp.start();
+                rightAnswerMp = MediaPlayer.create(this,R.raw.thisis10);
+
             }
         }
 
         sendButton.setOnClickListener(this);
-
+        tryAgainPlayer = MediaPlayer.create(this, R.raw.tryagain);
         loadTrainDataFile();
 
     }
@@ -166,37 +210,40 @@ public class DrawActivity extends ActionBarActivity implements View.OnClickListe
             String recognizedText = baseApi.getUTF8Text();
             baseApi.end();
 
-            pictureFile.delete();
-
             if (recognizedText.equals(numberToCheck)) {
-                Toast.makeText(getApplicationContext(),"     Good Job!\nThe Number Is " + numberToCheck + "!", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(intent);
+                Toast.makeText(getApplicationContext(),"This is number " + numberToCheck + "!\n" + "     Good Job!", Toast.LENGTH_LONG).show();
+                rightAnswerMp.start();
+                //Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                //startActivity(intent);
+                //finish();
             }
 
             else {
                 number.setVisibility(View.VISIBLE);
                 drawView.startNew();
                 Toast.makeText(getApplicationContext(),"Try Again...", Toast.LENGTH_LONG).show();
+                tryAgainPlayer.start();
             }
+
+            pictureFile.delete();
         }
     }
 
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (!continueMusic) {
-            MusicManager.pause();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        continueMusic = false;
-        MusicManager.start(this, MusicManager.MUSIC_GAME);
-    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        if (!continueMusic) {
+//            MusicManager.pause();
+//        }
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        continueMusic = false;
+//        MusicManager.start(this, MusicManager.MUSIC_GAME);
+//    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
