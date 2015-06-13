@@ -11,10 +11,14 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AbsoluteLayout;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,16 +37,23 @@ public class DrawActivity extends ActionBarActivity implements View.OnClickListe
     public static final String DATA_PATH = Environment
             .getExternalStorageDirectory().toString() + "/DrawGame/";
     Button sendButton;
+    Button reloadButton;
+    Button resetButton;
     DrawingView drawView;
     Bitmap b;
     String path;
     ImageView  number;
 
-    boolean continueMusic;
+    //boolean continueMusic;
     String numberToCheck;
     MediaPlayer mp;
+    MediaPlayer kidsYay;
     MediaPlayer rightAnswerMp;
     MediaPlayer tryAgainPlayer;
+
+    ScaleOnClick sendButtonAnim;
+    ScaleOnClick reloadButtonAnim;
+    ScaleOnClick resetButtonAnim;
 
 
     @Override
@@ -52,6 +63,8 @@ public class DrawActivity extends ActionBarActivity implements View.OnClickListe
 
         drawView = (DrawingView) findViewById(R.id.drawing);
         sendButton = (Button) findViewById(R.id.btn_send);
+        reloadButton = (Button) findViewById(R.id.btn_reload);
+        resetButton = (Button) findViewById(R.id.btn_reset);
         number = (ImageView) findViewById(R.id.number_text);
 
         Bundle extras = getIntent().getExtras();
@@ -131,7 +144,21 @@ public class DrawActivity extends ActionBarActivity implements View.OnClickListe
         }
 
         sendButton.setOnClickListener(this);
+        reloadButton.setOnClickListener(this);
+        resetButton.setOnClickListener(this);
         tryAgainPlayer = MediaPlayer.create(this, R.raw.tryagain);
+        kidsYay = MediaPlayer.create(this,R.raw.yay);
+        kidsYay.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            public void onCompletion(MediaPlayer mp) {
+                rightAnswerMp.start();
+                Toast.makeText(getApplicationContext(),"This is number " + numberToCheck + "!\n" + "     Good Job!", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        sendButtonAnim = new ScaleOnClick(sendButton);
+        reloadButtonAnim = new ScaleOnClick(reloadButton);
+        resetButtonAnim = new ScaleOnClick(resetButton);
+
         loadTrainDataFile();
 
     }
@@ -139,6 +166,9 @@ public class DrawActivity extends ActionBarActivity implements View.OnClickListe
     public void onClick(View view) {
 
         if (view.getId() == R.id.btn_send) {
+
+            sendButtonAnim.click();
+
             File pictureFile = getOutputMediaFile();
             if (pictureFile == null) {
                 Log.d("AnyOneCan","Error creating media file, check storage permissions: ");
@@ -211,8 +241,8 @@ public class DrawActivity extends ActionBarActivity implements View.OnClickListe
             baseApi.end();
 
             if (recognizedText.equals(numberToCheck)) {
-                Toast.makeText(getApplicationContext(),"This is number " + numberToCheck + "!\n" + "     Good Job!", Toast.LENGTH_LONG).show();
-                rightAnswerMp.start();
+                kidsYay.start();
+                //Toast.makeText(getApplicationContext(),"This is number " + numberToCheck + "!\n" + "     Good Job!", Toast.LENGTH_LONG).show();
                 //Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 //startActivity(intent);
                 //finish();
@@ -227,6 +257,18 @@ public class DrawActivity extends ActionBarActivity implements View.OnClickListe
 
             pictureFile.delete();
         }
+
+        if (view.getId() == R.id.btn_reload) {
+            reloadButtonAnim.click();
+            mp.start();
+        }
+
+        if (view.getId() == R.id.btn_reset) {
+            resetButtonAnim.click();
+            number.setVisibility(View.VISIBLE);
+            drawView.startNew();
+        }
+
     }
 
 
@@ -245,16 +287,16 @@ public class DrawActivity extends ActionBarActivity implements View.OnClickListe
 //        MusicManager.start(this, MusicManager.MUSIC_GAME);
 //    }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch(keyCode) {
-            case KeyEvent.KEYCODE_BACK:
-                continueMusic = false;
-                break;
-        }
-
-        return super.onKeyDown(keyCode, event);
-    }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        switch(keyCode) {
+//            case KeyEvent.KEYCODE_BACK:
+//                continueMusic = false;
+//                break;
+//        }
+//
+//        return super.onKeyDown(keyCode, event);
+//    }
 
 
     /**

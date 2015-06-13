@@ -22,14 +22,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     Button card9;
     Button card10;
 
-    boolean continueMusic = true;
+    //boolean continueMusic = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        continueMusic = true;
+        //continueMusic = true;
 
         card1 = (Button) findViewById(R.id.btn_card1);
         card2 = (Button) findViewById(R.id.btn_card2);
