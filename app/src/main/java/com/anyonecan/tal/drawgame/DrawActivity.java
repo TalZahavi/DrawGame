@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
@@ -153,7 +155,11 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
         kidsYay.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer mp) {
                 rightAnswerMp.start();
-                Toast.makeText(getApplicationContext(),"This is number " + numberToCheck + "!\n" + "     Good Job!", Toast.LENGTH_LONG).show();
+                Toast toast = Toast.makeText(getApplicationContext(),"This is number " + numberToCheck + "!\n" + "     Good Job!", Toast.LENGTH_LONG);
+                LinearLayout linearLayout = (LinearLayout) toast.getView();
+                TextView messageTextView = (TextView) linearLayout.getChildAt(0);
+                messageTextView.setTextSize(25);
+                toast.show();
 
             }
         });
@@ -269,7 +275,11 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
                     else {
                         number.setVisibility(View.VISIBLE);
                         drawView.startNew();
-                        Toast.makeText(getApplicationContext(),"Try Again...", Toast.LENGTH_LONG).show();
+                        Toast toast = Toast.makeText(getApplicationContext(),"Try Again...", Toast.LENGTH_LONG);
+                        LinearLayout linearLayout = (LinearLayout) toast.getView();
+                        TextView messageTextView = (TextView) linearLayout.getChildAt(0);
+                        messageTextView.setTextSize(25);
+                        toast.show();
                         tryAgainPlayer.start();
                     }
 
