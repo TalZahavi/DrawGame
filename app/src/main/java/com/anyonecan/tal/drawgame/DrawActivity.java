@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
+import com.plattysoft.leonids.ParticleSystem;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -154,6 +155,9 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
         kidsYay = MediaPlayer.create(this,R.raw.yay);
         kidsYay.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer mp) {
+
+
+
                 rightAnswerMp.start();
                 Toast toast = Toast.makeText(getApplicationContext(),"This is number " + numberToCheck + "!\n" + "     Good Job!", Toast.LENGTH_LONG);
                 LinearLayout linearLayout = (LinearLayout) toast.getView();
@@ -183,6 +187,8 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
     public void onClick(View view) {
 
         if (view.getId() == R.id.btn_send) {
+
+
 
             sendButtonAnim.click(new Animation.AnimationListener() {
                 @Override
@@ -265,6 +271,9 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
                     baseApi.end();
 
                     if (recognizedText.equals(numberToCheck)) {
+                        new ParticleSystem(DrawActivity.this, 200, R.drawable.star_pink, 10000)
+                                .setSpeedRange(0.2f, 0.5f)
+                                .oneShot(drawView, 200);
                         kidsYay.start();
                         //Toast.makeText(getApplicationContext(),"This is number " + numberToCheck + "!\n" + "     Good Job!", Toast.LENGTH_LONG).show();
                         //Intent intent = new Intent(getApplicationContext(),MainActivity.class);

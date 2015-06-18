@@ -1,2 +1,2 @@
-include ':app', ':tess-two'
+include ':app', ':tess-two', ':LeonidsLib'
 include ':libraries:tess-two'

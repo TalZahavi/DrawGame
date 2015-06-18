@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DrawGame.iml" filepath="$PROJECT_DIR$/DrawGame.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LeonidsLib/LeonidsLib.iml" filepath="$PROJECT_DIR$/LeonidsLib/LeonidsLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/libraries/libraries.iml" filepath="$PROJECT_DIR$/libraries/libraries.iml" />
       <module fileurl="file://$PROJECT_DIR$/libraries/tess-two/libraries-tess-two.iml" filepath="$PROJECT_DIR$/libraries/tess-two/libraries-tess-two.iml" />
