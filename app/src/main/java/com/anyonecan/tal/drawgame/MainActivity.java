@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 
-public class MainActivity extends ActionBarActivity implements View.OnClickListener {
+public class MainActivity extends ImmersiveActivity implements View.OnClickListener {
 
     Button card1;
     Button card2;

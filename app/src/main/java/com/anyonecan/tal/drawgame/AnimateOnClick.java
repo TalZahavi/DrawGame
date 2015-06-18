@@ -8,18 +8,7 @@ public abstract class AnimateOnClick {
     View layout = null;
     int duration = 1000;
     int repeat = 1;
-
-    //    private void disableClipOnParents(View v) {
-//        if (v.getParent() == null) {
-//            return;
-//        }
-//        if (v instanceof ViewGroup) {
-//            ((ViewGroup) v).setClipChildren(false);
-//        }
-//        if (v.getParent() instanceof View) {
-//            disableClipOnParents((View) v.getParent());
-//        }
-//    }
+    Animation anim;
 
     protected AnimateOnClick(View layout) {
         this.layout = layout;
@@ -34,7 +23,7 @@ public abstract class AnimateOnClick {
 
     private void run(Animation.AnimationListener animListener) {
         layout.setClickable(false);
-        Animation anim = createAnimation();
+        anim = createAnimation();
         anim.setDuration(duration); // 1000 ms = 1second
         anim.setRepeatCount(repeat);
         anim.setRepeatMode(Animation.REVERSE);
@@ -50,6 +39,11 @@ public abstract class AnimateOnClick {
             }
         };
         run(new AnimListener(navigate));
+    }
+
+    public void click(Animation.AnimationListener animListener) {
+        run(animListener);
+        //layout.setClickable(true);
     }
 
     public void click(final Navigation navigate) {
