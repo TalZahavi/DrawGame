@@ -23,6 +23,8 @@ public class DrawingView extends View {
     private Canvas drawCanvas;
     //canvas bitmap
     private Bitmap canvasBitmap;
+    //disable the canvas
+    private boolean isDisabled;
 
     public DrawingView(Context context, AttributeSet attrs){
         super(context, attrs);
@@ -42,6 +44,8 @@ public class DrawingView extends View {
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
 
         canvasPaint = new Paint(Paint.DITHER_FLAG);
+
+        isDisabled = false;
     }
 
     @Override
@@ -54,6 +58,11 @@ public class DrawingView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
+        if (isDisabled) {
+            return super.onTouchEvent(event);
+        }
+
         //detect user touch
         float touchX = event.getX();
         float touchY = event.getY();
@@ -87,5 +96,9 @@ public class DrawingView extends View {
     public void startNew(){
         drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
         invalidate();
+    }
+
+    public void setDisabled(boolean bool) {
+        isDisabled = bool;
     }
 }

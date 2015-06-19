@@ -183,6 +183,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
                 reloadButton.setClickable(true);
                 resetButton.setClickable(true);
                 goBackButton.setClickable(true);
+                drawView.setDisabled(false);
             }
         });
 
@@ -193,6 +194,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
                 reloadButton.setClickable(true);
                 resetButton.setClickable(true);
                 goBackButton.setClickable(true);
+                drawView.setDisabled(false);
             }
         });
 
@@ -204,6 +206,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
             sendButtonAnim.click(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
+                    drawView.setDisabled(true);
                     sendButton.setClickable(false);
                     reloadButton.setClickable(false);
                     resetButton.setClickable(false);
@@ -320,6 +323,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
         }
 
         if (view.getId() == R.id.btn_reload) {
+            drawView.setDisabled(true);
             sendButton.setClickable(false);
             reloadButton.setClickable(false);
             resetButton.setClickable(false);
@@ -332,6 +336,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
             resetButtonAnim.click(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
+                    drawView.setDisabled(true);
                     sendButton.setClickable(false);
                     reloadButton.setClickable(false);
                     resetButton.setClickable(false);
@@ -348,6 +353,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
                     reloadButton.setClickable(true);
                     resetButton.setClickable(true);
                     goBackButton.setClickable(true);
+                    drawView.setDisabled(false);
                 }
 
                 @Override
