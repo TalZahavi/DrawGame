@@ -115,6 +115,18 @@ public class MusicManager {
         }
     }
 
+    public static void updateVolume(float vol) {
+        try {
+            Log.d(TAG, "Setting music volume to " + vol);
+            Collection<MediaPlayer> mps = players.values();
+            for (MediaPlayer p : mps) {
+                p.setVolume(vol,vol);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+        }
+    }
+
     public static void release() {
         Log.d(TAG, "Releasing media players");
         Collection<MediaPlayer> mps = players.values();

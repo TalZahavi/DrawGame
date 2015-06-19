@@ -165,6 +165,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
 
         rightAnswerMp.setOnCompletionListener( new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer mp) {
+                MusicManager.updateVolume(1);
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);
                 //OcrManager.baseApi.end();
@@ -177,6 +178,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
 //        baseApi.init(DATA_PATH, "eng");
 //        baseApi.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "0123456789");
 
+        MusicManager.updateVolume(0.2f);
         mp.start();
 
         tryAgainPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -187,6 +189,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
                 resetButton.setClickable(true);
                 goBackButton.setClickable(true);
                 drawView.setDisabled(false);
+                MusicManager.updateVolume(1);
             }
         });
 
@@ -198,6 +201,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
                 resetButton.setClickable(true);
                 goBackButton.setClickable(true);
                 drawView.setDisabled(false);
+                MusicManager.updateVolume(1);
             }
         });
 
@@ -214,6 +218,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
                     reloadButton.setClickable(false);
                     resetButton.setClickable(false);
                     goBackButton.setClickable(false);
+                    MusicManager.updateVolume(0.2f);
                     drumMp.start();
                 }
 
@@ -295,10 +300,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
                         new ParticleSystem(DrawActivity.this, 200, R.drawable.star_pink, 10000)
                                 .setSpeedRange(0.2f, 0.5f)
                                 .oneShot(drawView, 200);
-
                         kidsYay.start();
-
-
                     }
 
                     else {
@@ -310,8 +312,6 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
                         messageTextView.setTextSize(25);
                         toast.show();
                         tryAgainPlayer.start();
-
-
                     }
 
                     pictureFile.delete();
@@ -332,6 +332,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
             resetButton.setClickable(false);
             goBackButton.setClickable(false);
             reloadButtonAnim.click();
+            MusicManager.updateVolume(0.2f);
             mp.start();
         }
 
@@ -344,7 +345,6 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
                     reloadButton.setClickable(false);
                     resetButton.setClickable(false);
                     goBackButton.setClickable(false);
-
                     deleteMp.start();
                     number.setVisibility(View.VISIBLE);
                     drawView.startNew();
