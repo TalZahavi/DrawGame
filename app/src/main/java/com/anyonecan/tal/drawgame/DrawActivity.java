@@ -9,6 +9,7 @@ import android.media.MediaPlayer;
 import android.os.Environment;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.Button;
@@ -55,6 +56,8 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
     ScaleOnClick resetButtonAnim;
 
     TessBaseAPI baseApi;
+
+    boolean continueMusic;
 
 
     @Override
@@ -369,6 +372,26 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
             baseApi.end();
             finish();
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        continueMusic = true;
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!continueMusic) {
+            MusicManager.pause();
+        }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        continueMusic = false;
+        MusicManager.start(this, MusicManager.MUSIC_GAME);
     }
 
     /**

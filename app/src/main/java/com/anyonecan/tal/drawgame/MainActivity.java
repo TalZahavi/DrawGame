@@ -19,6 +19,8 @@ public class MainActivity extends ImmersiveActivity implements View.OnClickListe
     Button card9;
     Button card10;
 
+    boolean continueMusic;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,4 +102,19 @@ public class MainActivity extends ImmersiveActivity implements View.OnClickListe
             //finish();
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!continueMusic) {
+            MusicManager.pause();
+        }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        continueMusic = false;
+        MusicManager.start(this, MusicManager.MUSIC_GAME);
+    }
+
 }
