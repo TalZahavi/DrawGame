@@ -7,7 +7,6 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.media.MediaPlayer;
 import android.os.Environment;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -43,7 +42,6 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
     String path;
     ImageView  number;
 
-    //boolean continueMusic;
     String numberToCheck;
     MediaPlayer mp;
     MediaPlayer kidsYay;
@@ -55,6 +53,8 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
     ScaleOnClick sendButtonAnim;
     ScaleOnClick reloadButtonAnim;
     ScaleOnClick resetButtonAnim;
+
+    TessBaseAPI baseApi;
 
 
     @Override
@@ -76,70 +76,60 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
             if (numberToCheck.equals("1")) {
                 number.setImageResource(R.drawable.shade_one);
                 mp = MediaPlayer.create(this, R.raw.draw1);
-                mp.start();
                 rightAnswerMp = MediaPlayer.create(this,R.raw.thisis1);
 
             }
             else if (numberToCheck.equals("2")) {
                 number.setImageResource(R.drawable.shade_two);
                 mp = MediaPlayer.create(this, R.raw.draw2);
-                mp.start();
                 rightAnswerMp = MediaPlayer.create(this,R.raw.thisis2);
 
             }
             else if (numberToCheck.equals("3")) {
                 number.setImageResource(R.drawable.shade_three);
                 mp = MediaPlayer.create(this, R.raw.draw3);
-                mp.start();
                 rightAnswerMp = MediaPlayer.create(this,R.raw.thisis3);
 
             }
             else if (numberToCheck.equals("4")) {
                 number.setImageResource(R.drawable.shade_four);
                 mp = MediaPlayer.create(this, R.raw.draw4);
-                mp.start();
                 rightAnswerMp = MediaPlayer.create(this,R.raw.thisis4);
 
             }
             else if (numberToCheck.equals("5")) {
                 number.setImageResource(R.drawable.shade_five);
                 mp = MediaPlayer.create(this, R.raw.draw5);
-                mp.start();
                 rightAnswerMp = MediaPlayer.create(this,R.raw.thisis5);
 
             }
             else if (numberToCheck.equals("6")) {
                 number.setImageResource(R.drawable.shade_six);
                 mp = MediaPlayer.create(this, R.raw.draw6);
-                mp.start();
                 rightAnswerMp = MediaPlayer.create(this,R.raw.thisis6);
 
             }
             else if (numberToCheck.equals("7")) {
                 number.setImageResource(R.drawable.shade_seven);
                 mp = MediaPlayer.create(this, R.raw.draw7);
-                mp.start();
                 rightAnswerMp = MediaPlayer.create(this,R.raw.thisis7);
 
             }
             else if (numberToCheck.equals("8")) {
                 number.setImageResource(R.drawable.shade_eight);
                 mp = MediaPlayer.create(this, R.raw.draw8);
-                mp.start();
                 rightAnswerMp = MediaPlayer.create(this,R.raw.thisis8);
 
             }
             else if (numberToCheck.equals("9")) {
                 number.setImageResource(R.drawable.shade_nine);
                 mp = MediaPlayer.create(this, R.raw.draw9);
-                mp.start();
                 rightAnswerMp = MediaPlayer.create(this,R.raw.thisis9);
 
             }
             else {
                 number.setImageResource(R.drawable.shade_ten);
                 mp = MediaPlayer.create(this, R.raw.draw10);
-                mp.start();
                 rightAnswerMp = MediaPlayer.create(this,R.raw.thisis10);
 
             }
@@ -149,22 +139,19 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
         reloadButton.setOnClickListener(this);
         resetButton.setOnClickListener(this);
         goBackButton.setOnClickListener(this);
+
         tryAgainPlayer = MediaPlayer.create(this, R.raw.tryagain);
         deleteMp = MediaPlayer.create(this,R.raw.golf_swing);
         drumMp = MediaPlayer.create(this,R.raw.drum_roll_y);
         kidsYay = MediaPlayer.create(this,R.raw.yay);
         kidsYay.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer mp) {
-
-
-
                 rightAnswerMp.start();
                 Toast toast = Toast.makeText(getApplicationContext(),"This is number " + numberToCheck + "!\n" + "     Good Job!", Toast.LENGTH_LONG);
                 LinearLayout linearLayout = (LinearLayout) toast.getView();
                 TextView messageTextView = (TextView) linearLayout.getChildAt(0);
                 messageTextView.setTextSize(25);
                 toast.show();
-
             }
         });
 
@@ -177,22 +164,50 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
             public void onCompletion(MediaPlayer mp) {
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);
+                baseApi.end();
                 finish();
             }} );
 
         loadTrainDataFile();
+        baseApi = new TessBaseAPI();
+        baseApi.setDebug(false);
+        baseApi.init(DATA_PATH, "eng");
+        baseApi.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "0123456789");
+
+        mp.start();
+
+        tryAgainPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                sendButton.setClickable(true);
+                reloadButton.setClickable(true);
+                resetButton.setClickable(true);
+                goBackButton.setClickable(true);
+            }
+        });
+
+        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                sendButton.setClickable(true);
+                reloadButton.setClickable(true);
+                resetButton.setClickable(true);
+                goBackButton.setClickable(true);
+            }
+        });
 
     }
 
     public void onClick(View view) {
 
         if (view.getId() == R.id.btn_send) {
-
-
-
             sendButtonAnim.click(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
+                    sendButton.setClickable(false);
+                    reloadButton.setClickable(false);
+                    resetButton.setClickable(false);
+                    goBackButton.setClickable(false);
                     drumMp.start();
                 }
 
@@ -261,24 +276,23 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
                     }
                     catch (IOException e) {}
 
-                    TessBaseAPI baseApi = new TessBaseAPI();
-
-                    baseApi.setDebug(false);
-                    baseApi.init(DATA_PATH, "eng");
-                    baseApi.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "0123456789");
+//                    TessBaseAPI baseApi = new TessBaseAPI();
+//
+//                    baseApi.setDebug(false);
+//                    baseApi.init(DATA_PATH, "eng");
+//                    baseApi.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "0123456789");
                     baseApi.setImage(b);
                     String recognizedText = baseApi.getUTF8Text();
-                    baseApi.end();
+                    //baseApi.end();
 
                     if (recognizedText.equals(numberToCheck)) {
                         new ParticleSystem(DrawActivity.this, 200, R.drawable.star_pink, 10000)
                                 .setSpeedRange(0.2f, 0.5f)
                                 .oneShot(drawView, 200);
+
                         kidsYay.start();
-                        //Toast.makeText(getApplicationContext(),"This is number " + numberToCheck + "!\n" + "     Good Job!", Toast.LENGTH_LONG).show();
-                        //Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                        //startActivity(intent);
-                        //finish();
+
+
                     }
 
                     else {
@@ -290,11 +304,12 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
                         messageTextView.setTextSize(25);
                         toast.show();
                         tryAgainPlayer.start();
+
+
                     }
 
                     pictureFile.delete();
 
-                    sendButton.setClickable(true);
                 }
 
                 @Override
@@ -302,57 +317,53 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
 
                 }
             });
-
-
         }
 
         if (view.getId() == R.id.btn_reload) {
+            sendButton.setClickable(false);
+            reloadButton.setClickable(false);
+            resetButton.setClickable(false);
+            goBackButton.setClickable(false);
             reloadButtonAnim.click();
             mp.start();
         }
 
         if (view.getId() == R.id.btn_reset) {
-            deleteMp.start();
-            resetButtonAnim.click();
-            number.setVisibility(View.VISIBLE);
-            drawView.startNew();
+            resetButtonAnim.click(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    sendButton.setClickable(false);
+                    reloadButton.setClickable(false);
+                    resetButton.setClickable(false);
+                    goBackButton.setClickable(false);
+
+                    deleteMp.start();
+                    number.setVisibility(View.VISIBLE);
+                    drawView.startNew();
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    sendButton.setClickable(true);
+                    reloadButton.setClickable(true);
+                    resetButton.setClickable(true);
+                    goBackButton.setClickable(true);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
         }
 
         if (view.getId() == R.id.btn_goBack) {
             Intent intent = new Intent(getApplicationContext(),MainActivity.class);
             startActivity(intent);
+            baseApi.end();
             finish();
         }
-
     }
-
-
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        if (!continueMusic) {
-//            MusicManager.pause();
-//        }
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        continueMusic = false;
-//        MusicManager.start(this, MusicManager.MUSIC_GAME);
-//    }
-
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        switch(keyCode) {
-//            case KeyEvent.KEYCODE_BACK:
-//                continueMusic = false;
-//                break;
-//        }
-//
-//        return super.onKeyDown(keyCode, event);
-//    }
-
 
     /**
       * Create a File for saving an image or video
