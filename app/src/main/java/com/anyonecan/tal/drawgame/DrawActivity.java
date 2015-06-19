@@ -18,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.googlecode.tesseract.android.TessBaseAPI;
 import com.plattysoft.leonids.ParticleSystem;
 
 import java.io.File;
@@ -46,6 +45,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
     String numberToCheck;
     MediaPlayer mp;
     MediaPlayer kidsYay;
+    MediaPlayer kidsWrong;
     MediaPlayer drumMp;
     MediaPlayer rightAnswerMp;
     MediaPlayer deleteMp;
@@ -144,6 +144,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
         goBackButton.setOnClickListener(this);
 
         tryAgainPlayer = MediaPlayer.create(this, R.raw.tryagain);
+        kidsWrong = MediaPlayer.create(this,R.raw.boing_x);
         deleteMp = MediaPlayer.create(this,R.raw.golf_swing);
         drumMp = MediaPlayer.create(this,R.raw.drum_roll_y);
         kidsYay = MediaPlayer.create(this,R.raw.yay);
@@ -300,6 +301,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
 
                     else {
                         number.setVisibility(View.VISIBLE);
+                        kidsWrong.start();
                         drawView.startNew();
                         Toast toast = Toast.makeText(getApplicationContext(),"Try Again...", Toast.LENGTH_LONG);
                         LinearLayout linearLayout = (LinearLayout) toast.getView();
