@@ -55,7 +55,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
     ScaleOnClick reloadButtonAnim;
     ScaleOnClick resetButtonAnim;
 
-    TessBaseAPI baseApi;
+    //TessBaseAPI baseApi;
 
     boolean continueMusic;
 
@@ -167,15 +167,15 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
             public void onCompletion(MediaPlayer mp) {
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);
-                baseApi.end();
+                //OcrManager.baseApi.end();
                 finish();
             }} );
 
-        loadTrainDataFile();
-        baseApi = new TessBaseAPI();
-        baseApi.setDebug(false);
-        baseApi.init(DATA_PATH, "eng");
-        baseApi.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "0123456789");
+//        loadTrainDataFile();
+//        baseApi = new TessBaseAPI();
+//        baseApi.setDebug(false);
+//        baseApi.init(DATA_PATH, "eng");
+//        baseApi.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "0123456789");
 
         mp.start();
 
@@ -287,8 +287,8 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
 //                    baseApi.setDebug(false);
 //                    baseApi.init(DATA_PATH, "eng");
 //                    baseApi.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "0123456789");
-                    baseApi.setImage(b);
-                    String recognizedText = baseApi.getUTF8Text();
+                    OcrManager.baseApi.setImage(b);
+                    String recognizedText = OcrManager.baseApi.getUTF8Text();
                     //baseApi.end();
 
                     if (recognizedText.equals(numberToCheck)) {
@@ -369,7 +369,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
         if (view.getId() == R.id.btn_goBack) {
             Intent intent = new Intent(getApplicationContext(),MainActivity.class);
             startActivity(intent);
-            baseApi.end();
+            //OcrManager.baseApi.end();
             finish();
         }
     }

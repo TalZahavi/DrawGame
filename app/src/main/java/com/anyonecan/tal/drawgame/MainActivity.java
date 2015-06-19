@@ -47,6 +47,11 @@ public class MainActivity extends ImmersiveActivity implements View.OnClickListe
         card8.setOnClickListener(this);
         card9.setOnClickListener(this);
         card10.setOnClickListener(this);
+
+        if (!OcrManager.isInit) {
+            OcrManager.init();
+        }
+
     }
 
     public void onClick(View view) {
@@ -116,5 +121,9 @@ public class MainActivity extends ImmersiveActivity implements View.OnClickListe
         continueMusic = false;
         MusicManager.start(this, MusicManager.MUSIC_GAME);
     }
+
+    /**TODO:
+     * Dont forget to clean the BaseAPI after going back from this screen!!
+     */
 
 }
