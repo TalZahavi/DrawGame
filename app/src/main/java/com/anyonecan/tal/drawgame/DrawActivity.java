@@ -287,11 +287,6 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
                     }
                     catch (IOException e) {}
 
-//                    TessBaseAPI baseApi = new TessBaseAPI();
-//
-//                    baseApi.setDebug(false);
-//                    baseApi.init(DATA_PATH, "eng");
-//                    baseApi.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "0123456789");
                     OcrManager.baseApi.setImage(b);
                     String recognizedText = OcrManager.baseApi.getUTF8Text();
                     //baseApi.end();

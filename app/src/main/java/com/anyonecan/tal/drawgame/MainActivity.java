@@ -49,7 +49,7 @@ public class MainActivity extends ImmersiveActivity implements View.OnClickListe
         card10.setOnClickListener(this);
 
         if (!OcrManager.isInit) {
-            OcrManager.init();
+            OcrManager.init(this);
         }
 
     }

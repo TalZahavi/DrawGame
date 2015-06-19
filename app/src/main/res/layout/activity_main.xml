@@ -10,7 +10,6 @@
     tools:context=".MainActivity"
     android:gravity="center_vertical"
     android:orientation="vertical"
-
     android:background="@drawable/games_back">
 
 
