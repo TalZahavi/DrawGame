@@ -59,6 +59,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
     //TessBaseAPI baseApi;
 
     boolean continueMusic;
+    boolean firstTry;
 
 
     @Override
@@ -218,6 +219,8 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
             stopMusicButton.setBackgroundResource(R.drawable.pause);
         }
 
+        firstTry = true;
+
     }
 
     public void onClick(View view) {
@@ -321,6 +324,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
                         messageTextView.setTextSize(25);
                         toast.show();
                         tryAgainPlayer.start();
+                        firstTry = false;
                     }
 
                     pictureFile.delete();
@@ -355,7 +359,9 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
                     resetButton.setClickable(false);
                     goBackButton.setClickable(false);
                     deleteMp.start();
-                    number.setVisibility(View.VISIBLE);
+                    if (!firstTry) {
+                        number.setVisibility(View.VISIBLE);
+                    }
                     drawView.startNew();
                 }
 
