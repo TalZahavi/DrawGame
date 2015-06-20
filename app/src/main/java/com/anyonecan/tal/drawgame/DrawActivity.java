@@ -138,6 +138,8 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
             }
         }
 
+        number.setVisibility(View.INVISIBLE);
+
         sendButton.setOnClickListener(this);
         reloadButton.setOnClickListener(this);
         resetButton.setOnClickListener(this);
