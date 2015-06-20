@@ -52,7 +52,7 @@
                         <RelativeLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="0.2167"
+                            android:layout_weight="0.0934"
                             android:clipChildren="false" />
 
                         <RelativeLayout
@@ -73,7 +73,27 @@
                         <RelativeLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="0.35"
+                            android:layout_weight="0.02"
+                            android:clipChildren="false" />
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.4333"
+                            android:clipChildren="false" >
+
+                            <Button
+                                android:id="@+id/btn_stop_music"
+                                android:background="@drawable/pause"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.02"
                             android:clipChildren="false" />
 
                     </LinearLayout>

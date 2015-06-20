@@ -36,6 +36,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
     Button reloadButton;
     Button resetButton;
     Button goBackButton;
+    Button stopMusicButton;
 
     DrawingView drawView;
     Bitmap b;
@@ -58,6 +59,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
     //TessBaseAPI baseApi;
 
     boolean continueMusic;
+    boolean musicIsOn;
 
 
     @Override
@@ -70,6 +72,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
         reloadButton = (Button) findViewById(R.id.btn_reload);
         resetButton = (Button) findViewById(R.id.btn_reset);
         goBackButton = (Button) findViewById(R.id.btn_goBack);
+        stopMusicButton = (Button) findViewById(R.id.btn_stop_music);
         number = (ImageView) findViewById(R.id.number_text);
 
         Bundle extras = getIntent().getExtras();
@@ -144,6 +147,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
         reloadButton.setOnClickListener(this);
         resetButton.setOnClickListener(this);
         goBackButton.setOnClickListener(this);
+        stopMusicButton.setOnClickListener(this);
 
         tryAgainPlayer = MediaPlayer.create(this, R.raw.tryagain);
         kidsWrong = MediaPlayer.create(this,R.raw.boing_x);
@@ -207,6 +211,8 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
                 MusicManager.updateVolume(1);
             }
         });
+
+        musicIsOn = true;
 
     }
 
@@ -324,7 +330,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
             });
         }
 
-        if (view.getId() == R.id.btn_reload) {
+        else if (view.getId() == R.id.btn_reload) {
             drawView.setDisabled(true);
             sendButton.setClickable(false);
             reloadButton.setClickable(false);
@@ -335,7 +341,7 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
             mp.start();
         }
 
-        if (view.getId() == R.id.btn_reset) {
+        else if (view.getId() == R.id.btn_reset) {
             resetButtonAnim.click(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
@@ -365,11 +371,28 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
             });
         }
 
-        if (view.getId() == R.id.btn_goBack) {
+        else if (view.getId() == R.id.btn_goBack) {
             Intent intent = new Intent(getApplicationContext(),MainActivity.class);
             startActivity(intent);
             //OcrManager.baseApi.end();
             finish();
+        }
+
+        else if (view.getId() == R.id.btn_stop_music) {
+            if (musicIsOn) {
+                if (!continueMusic) {
+                    MusicManager.pause();
+                    musicIsOn = false;
+                    stopMusicButton.setBackgroundResource(R.drawable.play);
+                }
+            }
+            else {
+                continueMusic = false;
+                MusicManager.start(this, MusicManager.MUSIC_GAME);
+                musicIsOn = true;
+                stopMusicButton.setBackgroundResource(R.drawable.pause);
+            }
+
         }
     }
 
