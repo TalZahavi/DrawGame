@@ -59,7 +59,6 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
     //TessBaseAPI baseApi;
 
     boolean continueMusic;
-    boolean musicIsOn;
 
 
     @Override
@@ -212,7 +211,12 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
             }
         });
 
-        musicIsOn = true;
+        if (MusicManager.musicStopByMe) {
+            stopMusicButton.setBackgroundResource(R.drawable.play);
+        }
+        else {
+            stopMusicButton.setBackgroundResource(R.drawable.pause);
+        }
 
     }
 
@@ -379,17 +383,17 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
         }
 
         else if (view.getId() == R.id.btn_stop_music) {
-            if (musicIsOn) {
+            if (!MusicManager.musicStopByMe) {
                 if (!continueMusic) {
                     MusicManager.pause();
-                    musicIsOn = false;
+                    MusicManager.musicStopByMe = true;
                     stopMusicButton.setBackgroundResource(R.drawable.play);
                 }
             }
             else {
                 continueMusic = false;
                 MusicManager.start(this, MusicManager.MUSIC_GAME);
-                musicIsOn = true;
+                MusicManager.musicStopByMe = false;
                 stopMusicButton.setBackgroundResource(R.drawable.pause);
             }
 
@@ -412,8 +416,10 @@ public class DrawActivity extends ImmersiveActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        continueMusic = false;
-        MusicManager.start(this, MusicManager.MUSIC_GAME);
+        if (!MusicManager.musicStopByMe) {
+            continueMusic = false;
+            MusicManager.start(this, MusicManager.MUSIC_GAME);
+        }
     }
 
     /**

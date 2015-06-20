@@ -20,6 +20,8 @@ public class MusicManager {
     private static int currentMusic = -1;
     private static int previousMusic = -1;
 
+    public static boolean musicStopByMe = false;
+
     public static float getMusicVolume(Context context) {
 //        String[] volumes = context.getResources().getStringArray(R.array.volume_values);
 //        String volumeString = PreferenceManager.getDefaultSharedPreferences(context).getString(

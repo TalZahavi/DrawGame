@@ -77,7 +77,7 @@ public class MainActivity extends ImmersiveActivity implements View.OnClickListe
             //finish();
         }
         if (view.getId() == R.id.btn_card5) {
-            intent.putExtra("intent_var","5");
+            intent.putExtra("intent_var", "5");
             startActivity(intent);
             //finish();
         }
@@ -118,8 +118,11 @@ public class MainActivity extends ImmersiveActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        continueMusic = false;
-        MusicManager.start(this, MusicManager.MUSIC_GAME);
+        if (!MusicManager.musicStopByMe) {
+            continueMusic = false;
+            MusicManager.start(this, MusicManager.MUSIC_GAME);
+        }
+
     }
 
     /**TODO:
