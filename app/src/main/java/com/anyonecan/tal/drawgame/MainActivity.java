@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 
-public class MainActivity extends ImmersiveActivity {
+public class MainActivity extends ImmersiveActivity implements View.OnClickListener {
 
     Button card1;
     Button card2;
@@ -21,6 +21,9 @@ public class MainActivity extends ImmersiveActivity {
     Button card8;
     Button card9;
     Button card10;
+
+    Button musicButton;
+    Button goBackButton;
 
     Rect rect;
 
@@ -53,6 +56,12 @@ public class MainActivity extends ImmersiveActivity {
         card10 = (Button) findViewById(R.id.btn_card10);
         card10.setOnTouchListener(listener("10"));
 
+        musicButton = (Button) findViewById(R.id.play);
+        goBackButton = (Button) findViewById(R.id.back);
+
+        musicButton.setOnClickListener(this);
+        goBackButton.setOnClickListener(this);
+
 //        card1.setOnClickListener(this);
 //        card2.setOnClickListener(this);
 //        card3.setOnClickListener(this);
@@ -68,6 +77,29 @@ public class MainActivity extends ImmersiveActivity {
             OcrManager.init(this);
         }
 
+    }
+
+    public void onClick(View view) {
+        if (view.getId() == R.id.back) {
+            OcrManager.baseApi.end();
+            finish();
+        }
+
+        if (view.getId() == R.id.play) {
+            if (!MusicManager.musicStopByMe) {
+                if (!continueMusic) {
+                    MusicManager.pause();
+                    MusicManager.musicStopByMe = true;
+                    musicButton.setBackgroundResource(R.drawable.play);
+                }
+            }
+            else {
+                continueMusic = false;
+                MusicManager.start(this, MusicManager.MUSIC_GAME);
+                MusicManager.musicStopByMe = false;
+                musicButton.setBackgroundResource(R.drawable.pause);
+            }
+        }
     }
 
 //    public void onClick(View view) {
@@ -137,6 +169,13 @@ public class MainActivity extends ImmersiveActivity {
         if (!MusicManager.musicStopByMe) {
             continueMusic = false;
             MusicManager.start(this, MusicManager.MUSIC_GAME);
+        }
+
+        if (MusicManager.musicStopByMe) {
+            musicButton.setBackgroundResource(R.drawable.play);
+        }
+        else {
+            musicButton.setBackgroundResource(R.drawable.pause);
         }
 
     }

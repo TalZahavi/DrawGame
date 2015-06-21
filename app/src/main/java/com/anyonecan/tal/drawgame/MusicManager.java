@@ -62,11 +62,11 @@ public class MusicManager {
             }
         } else {
             if (music == MUSIC_MENU) {
-                mp = MediaPlayer.create(context, R.raw.life_of_riley);
+                mp = MediaPlayer.create(context, R.raw.life_of_riley2);
             } else if (music == MUSIC_GAME) {
-                mp = MediaPlayer.create(context, R.raw.life_of_riley);
+                mp = MediaPlayer.create(context, R.raw.life_of_riley2);
             } else if (music == MUSIC_END_GAME) {
-                mp = MediaPlayer.create(context, R.raw.life_of_riley);
+                mp = MediaPlayer.create(context, R.raw.life_of_riley2);
             } else {
                 Log.e(TAG, "unsupported music number - " + music);
                 return;
